@@ -8,7 +8,7 @@ export function request(config) {
   // 2.拦截器
   // 2-1请求拦截
   instance.interceptors.request.use(config => {
-    console.log(config);
+    // console.log(config);
     /*
      * 1.信息不符合要求
      * 2.请求界面显示请求动画
@@ -16,14 +16,14 @@ export function request(config) {
      */
     return config // 拦截一定要return出去
   }, err => {
-    console.log(err);
+    // console.log(err);
   })
   // 2-1响应拦截
   instance.interceptors.response.use(res => {
-    console.log(res);
+    // console.log(res);
     return res.data
   }, err => {
-    console.log(err);
+    // console.log(err);
   })
 
   // 发送真正的网络请求
