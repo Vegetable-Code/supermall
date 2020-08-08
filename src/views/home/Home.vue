@@ -6,8 +6,8 @@
     <HomeSwiper :banners="banners.list"></HomeSwiper>
     <RecommendView :recommends="recommends"></RecommendView>
     <FeatureView />
-    <TabControl class="tab-control" :titles="['流行', '新款', '精选']" />
-    <GoodsList :goods="goods['pop'].list" />
+    <TabControl class="tab-control" :titles="showList" @tabClick="tabClick" />
+    <GoodsList :goods="showGoods" />
   </div>
 </template>
 
@@ -43,8 +43,17 @@ export default {
         pop: { page: 0, list: [] },
         new: { page: 0, list: [] },
         sell: { page: 0, list: [] }
-      }
+      },
+      currentType: "pop"
     };
+  },
+  computed: {
+    showGoods() {
+      return this.goods[this.currentType].list;
+    },
+    showList() {
+      return ["流行", "新款", "精选"];
+    }
   },
   created() {
     // 1.请求多个数据
@@ -70,6 +79,20 @@ export default {
         this.goods[type].list.push(...res.data.list);
         this.goods[type].page += 1;
       });
+    },
+    // 事件监听
+    tabClick(index) {
+      switch (index) {
+        case 0:
+          this.currentType = "pop";
+          break;
+        case 1:
+          this.currentType = "new";
+          break;
+        case 2:
+          this.currentType = "sell";
+          break;
+      }
     }
   }
 };
