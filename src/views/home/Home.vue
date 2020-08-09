@@ -1,34 +1,28 @@
 <template>
   <div id="home">
+    <!-- 头部 -->
     <nav-bar class="home-nav">
       <div slot="center">购物街</div>
     </nav-bar>
-
-    <Bscroll class="contents" ref="scroll">
+    <Scroll>
       <home-swiper :banners="banners.list"></home-swiper>
       <recommend-view :recommends="recommends"></recommend-view>
       <feature-view />
       <tab-control class="tab-control" :titles="showList" @tabClick="tabClick" />
       <goods-list :goods="showGoods" />
-    </Bscroll>
-
-    <!-- 监听组件点击，修饰符 -->
-    <back-top @click.native="backClick"></back-top>
+    </Scroll>
   </div>
 </template>
 
 <script scoped>
 // 组件导入
 import NavBar from "components/common/navbar/NavBar";
-import Bscroll from "components/common/scroll/Bscroll";
-import BackTop from "components/common/back-top/BackTop";
-
 import TabControl from "components/content/tabControl/TabControl";
 import GoodsList from "components/content/goods/GoodsList";
-
 import HomeSwiper from "./child-comps/HomeSwiper";
 import RecommendView from "./child-comps/RecommendView";
 import FeatureView from "./child-comps/FeatureView";
+import Scroll from "components/common/scroll/Scroll";
 
 // 网络请求
 import { getHomeMulitData, getHomeGoods } from "network/home";
@@ -36,19 +30,13 @@ import { getHomeMulitData, getHomeGoods } from "network/home";
 export default {
   name: "Home",
   components: {
-    // 通用组件
     NavBar,
-    Bscroll,
-    BackTop,
-
-    // 业务组件
     TabControl,
     GoodsList,
-
-    // 子组件
     HomeSwiper,
     RecommendView,
-    FeatureView
+    FeatureView,
+    Scroll
   },
   data() {
     return {
@@ -108,9 +96,6 @@ export default {
           this.currentType = "sell";
           break;
       }
-    },
-    backClick() {
-      this.$refs.scroll.scroll.scrollTo(0, 0);
     }
   }
 };
@@ -119,27 +104,19 @@ export default {
 <style scoped>
 #home {
   padding-top: 44px;
-  height: 100vh;
 }
-
 .home-nav {
-  color: white;
-  background-color: rgb(255, 142, 150);
+  color: #fff;
+  background-color: deeppink;
   position: fixed;
-  left: 0;
   top: 0;
+  left: 0;
   right: 0;
-  z-index: 5;
+  z-index: 9;
 }
-
-.tab-control {
-  position: sticky;
+.tab-control-top {
+  position: relative;
   top: 44px;
-}
-
-.centents {
-  height: calc(100% - 93px);
-  margin-top: 44px;
-  overflow: hidden;
+  z-index: 9;
 }
 </style>

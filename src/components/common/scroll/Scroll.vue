@@ -10,7 +10,7 @@
 import BScroll from "better-scroll";
 
 export default {
-  name: "Bscroll",
+  name: "Scroll",
   props: {
     probeType: {
       type: Number,
@@ -24,17 +24,20 @@ export default {
   },
   mounted() {
     // 指定对象 $refs
-      this.scroll = new BScroll(this.$refs.wrapper, {
-        click: true,
-        probeType: this.probeType
-      });
-      this.scroll.on('scroll', (position) => {
-        console.log(position);
-      })
+    this.scroll = new BScroll(this.$refs.wrapper, {
+      click: true,
+      probeType: this.probeType
+    });
+    // 实时监听位置
+    this.scroll.on("scroll", position => {
+      // console.log(position);
+    });
   }
 };
 </script>
 
 <style scoped>
-
+.wrapper {
+  height: 400px;
+}
 </style>
