@@ -17,5 +17,6 @@ export default {
 
 
 <style scoped>
+/* scoped表示作用域 */
 @import "./assets/css/base.css";
 </style>

@@ -1,19 +1,27 @@
 <template>
   <div id="home">
-    <NavBar class="home-nav">
+    <nav-bar class="home-nav">
       <div slot="center">购物街</div>
-    </NavBar>
-    <HomeSwiper :banners="banners.list"></HomeSwiper>
-    <RecommendView :recommends="recommends"></RecommendView>
-    <FeatureView />
-    <TabControl class="tab-control" :titles="showList" @tabClick="tabClick" />
-    <GoodsList :goods="showGoods" />
+    </nav-bar>
+
+    <Bscroll class="contents" ref="scroll">
+      <home-swiper :banners="banners.list"></home-swiper>
+      <recommend-view :recommends="recommends"></recommend-view>
+      <feature-view />
+      <tab-control class="tab-control" :titles="showList" @tabClick="tabClick" />
+      <goods-list :goods="showGoods" />
+    </Bscroll>
+
+    <!-- 监听组件点击，修饰符 -->
+    <back-top @click.native="backClick"></back-top>
   </div>
 </template>
 
-<script>
+<script scoped>
 // 组件导入
 import NavBar from "components/common/navbar/NavBar";
+import Bscroll from "components/common/scroll/Bscroll";
+import BackTop from "components/common/back-top/BackTop";
 
 import TabControl from "components/content/tabControl/TabControl";
 import GoodsList from "components/content/goods/GoodsList";
@@ -28,9 +36,16 @@ import { getHomeMulitData, getHomeGoods } from "network/home";
 export default {
   name: "Home",
   components: {
+    // 通用组件
     NavBar,
+    Bscroll,
+    BackTop,
+
+    // 业务组件
     TabControl,
     GoodsList,
+
+    // 子组件
     HomeSwiper,
     RecommendView,
     FeatureView
@@ -93,14 +108,18 @@ export default {
           this.currentType = "sell";
           break;
       }
+    },
+    backClick() {
+      this.$refs.scroll.scroll.scrollTo(0, 0);
     }
   }
 };
 </script>
 
-<style>
+<style scoped>
 #home {
   padding-top: 44px;
+  height: 100vh;
 }
 
 .home-nav {
@@ -110,11 +129,17 @@ export default {
   left: 0;
   top: 0;
   right: 0;
-  z-index: 10;
+  z-index: 5;
 }
 
 .tab-control {
   position: sticky;
   top: 44px;
+}
+
+.centents {
+  height: calc(100% - 93px);
+  margin-top: 44px;
+  overflow: hidden;
 }
 </style>
