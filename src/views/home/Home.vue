@@ -4,13 +4,14 @@
     <nav-bar class="home-nav">
       <div slot="center">购物街</div>
     </nav-bar>
-    <Scroll>
+    <Scroll ref="scroll" :probe-type="3" @scroll="contentScroll">
       <home-swiper :banners="banners.list"></home-swiper>
       <recommend-view :recommends="recommends"></recommend-view>
       <feature-view />
       <tab-control class="tab-control" :titles="showList" @tabClick="tabClick" />
       <goods-list :goods="showGoods" />
     </Scroll>
+    <back-top @click.native="backClick" v-show="isShow"></back-top>
   </div>
 </template>
 
@@ -23,6 +24,7 @@ import HomeSwiper from "./child-comps/HomeSwiper";
 import RecommendView from "./child-comps/RecommendView";
 import FeatureView from "./child-comps/FeatureView";
 import Scroll from "components/common/scroll/Scroll";
+import BackTop from "components/common/back-top/BackTop";
 
 // 网络请求
 import { getHomeMulitData, getHomeGoods } from "network/home";
@@ -36,7 +38,8 @@ export default {
     HomeSwiper,
     RecommendView,
     FeatureView,
-    Scroll
+    Scroll,
+    BackTop
   },
   data() {
     return {
@@ -47,7 +50,8 @@ export default {
         new: { page: 0, list: [] },
         sell: { page: 0, list: [] }
       },
-      currentType: "pop"
+      currentType: "pop",
+      isShow: false
     };
   },
   computed: {
@@ -96,6 +100,12 @@ export default {
           this.currentType = "sell";
           break;
       }
+    },
+    backClick() {
+      this.$refs.scroll.scroll.scrollTo(0, 0, 500);
+    },
+    contentScroll(position) {
+      this.isShow = -position.y > 1000
     }
   }
 };

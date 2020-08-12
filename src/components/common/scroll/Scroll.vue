@@ -30,7 +30,7 @@ export default {
     });
     // 实时监听位置
     this.scroll.on("scroll", position => {
-      // console.log(position);
+      this.$emit('scroll', position)
     });
   }
 };
