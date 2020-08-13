@@ -33,3 +33,7 @@ npm run lint
 See [Configuration Reference](https://cli.vuejs.org/config/).
 
 
+### 存在的问题
+* 设置了上拉加载时更新scrollheight，那么无论是哪个分类都会以第一个为标准也就是后续的分类目录几乎无法实现上拉加载
+
+

@@ -4,7 +4,13 @@
     <nav-bar class="home-nav">
       <div slot="center">购物街</div>
     </nav-bar>
-    <Scroll ref="scroll" :probe-type="3" @scroll="contentScroll">
+    <Scroll
+      ref="scroll"
+      :probe-type="3"
+      @scroll="contentScroll"
+      :pull-up-load="true"
+      @pullingUp="loadMore"
+    >
       <home-swiper :banners="banners.list"></home-swiper>
       <recommend-view :recommends="recommends"></recommend-view>
       <feature-view />
@@ -85,27 +91,43 @@ export default {
       getHomeGoods(type, page).then(res => {
         this.goods[type].list.push(...res.data.list);
         this.goods[type].page += 1;
+
+        this.finishUp();
       });
     },
-    // 事件监听
+    // 切换分类
     tabClick(index) {
       switch (index) {
         case 0:
           this.currentType = "pop";
+          this.$refs.scroll.scroll.refresh();
           break;
         case 1:
           this.currentType = "new";
+          this.$refs.scroll.scroll.refresh();
           break;
         case 2:
           this.currentType = "sell";
+          this.$refs.scroll.scroll.refresh();
           break;
       }
     },
+    // 返回顶部
     backClick() {
       this.$refs.scroll.scroll.scrollTo(0, 0, 500);
     },
+    // 是否显示上拉按钮
     contentScroll(position) {
-      this.isShow = -position.y > 1000
+      this.isShow = -position.y > 1000;
+    },
+    // 上拉加载更多
+    loadMore() {
+      // 指定分类目录
+      this.getHomeGoods(this.currentType);
+      console.log(this.currentType);
+    },
+    finishUp() {
+      this.$refs.scroll.scroll.finishPullUp();
     }
   }
 };
