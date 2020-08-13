@@ -11,10 +11,10 @@
       :pull-up-load="true"
       @pullingUp="loadMore"
     >
-      <home-swiper :banners="banners.list"></home-swiper>
+      <home-swiper :banners="banners.list" @swiperImgLoad="swiperImgLoad"></home-swiper>
       <recommend-view :recommends="recommends"></recommend-view>
       <feature-view />
-      <tab-control class="tab-control" :titles="showList" @tabClick="tabClick" />
+      <tab-control class="tab-control" :titles="showList" @tabClick="tabClick" ref="tabControl" />
       <goods-list :goods="showGoods" />
     </Scroll>
     <back-top @click.native="backClick" v-show="isShow"></back-top>
@@ -57,7 +57,8 @@ export default {
         sell: { page: 0, list: [] }
       },
       currentType: "pop",
-      isShow: false
+      isShow: false,
+      tabOffsetTop: 0
     };
   },
   computed: {
@@ -76,6 +77,7 @@ export default {
     this.getHomeGoods("new");
     this.getHomeGoods("sell");
   },
+  mounted() {},
   methods: {
     // 1.请求多个数据
     getHomeMulitData() {
@@ -124,10 +126,12 @@ export default {
     loadMore() {
       // 指定分类目录
       this.getHomeGoods(this.currentType);
-      console.log(this.currentType);
     },
     finishUp() {
       this.$refs.scroll.scroll.finishPullUp();
+    },
+    swiperImgLoad() {
+      console.log(this.$refs.TabControl.$el.offsetTop);
     }
   }
 };
