@@ -4,6 +4,13 @@
     <nav-bar class="home-nav">
       <div slot="center">购物街</div>
     </nav-bar>
+    <tab-control
+      :titles="showList"
+      @tabClick="tabClick"
+      ref="tabControl1"
+      class="tab-control"
+      v-show="isFixed"
+    />
     <Scroll
       ref="scroll"
       :probe-type="3"
@@ -14,7 +21,12 @@
       <home-swiper :banners="banners.list" @swiperImgLoad="swiperImgLoad"></home-swiper>
       <recommend-view :recommends="recommends"></recommend-view>
       <feature-view />
-      <tab-control class="tab-control" :titles="showList" @tabClick="tabClick" ref="tabControl" />
+      <tab-control
+        :class="{fixed: isFixed}"
+        :titles="showList"
+        @tabClick="tabClick"
+        ref="tabControl2"
+      />
       <goods-list :goods="showGoods" />
     </Scroll>
     <back-top @click.native="backClick" v-show="isShow"></back-top>
@@ -58,7 +70,8 @@ export default {
       },
       currentType: "pop",
       isShow: false,
-      tabOffsetTop: 0
+      tabOffsetTop: 0,
+      isFixed: false
     };
   },
   computed: {
@@ -113,25 +126,33 @@ export default {
           this.$refs.scroll.scroll.refresh();
           break;
       }
+      this.$refs.tabControl1.currentType = index;
+      this.$refs.tabControl2.currentType = index;
     },
     // 返回顶部
     backClick() {
       this.$refs.scroll.scroll.scrollTo(0, 0, 500);
     },
-    // 是否显示上拉按钮
+    // 监听位置
     contentScroll(position) {
+      // 1.是否显示
       this.isShow = -position.y > 1000;
+      // 2.是否吸顶
+      this.isFixed = -position.y > this.tabOffsetTop;
     },
     // 上拉加载更多
     loadMore() {
       // 指定分类目录
       this.getHomeGoods(this.currentType);
     },
+    // 数据是否加载完成
     finishUp() {
       this.$refs.scroll.scroll.finishPullUp();
     },
+    // 判断图片是否加载完成并计算高度
+    // 为是否吸顶
     swiperImgLoad() {
-      console.log(this.$refs.TabControl.$el.offsetTop);
+      this.tabOffsetTop = this.$refs.tabControl2.$el.offsetTop;
     }
   }
 };
@@ -141,6 +162,7 @@ export default {
 #home {
   padding-top: 44px;
 }
+
 .home-nav {
   color: #fff;
   background-color: deeppink;
@@ -150,9 +172,16 @@ export default {
   right: 0;
   z-index: 9;
 }
-.tab-control-top {
-  position: relative;
+
+.fixed {
+  position: fixed;
   top: 44px;
+  left: 0;
+  right: 0;
+}
+
+.tab-control {
+  position: relative;
   z-index: 9;
 }
 </style>
