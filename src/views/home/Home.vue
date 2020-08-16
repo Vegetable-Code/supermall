@@ -71,7 +71,8 @@ export default {
       currentType: "pop",
       isShow: false,
       tabOffsetTop: 0,
-      isFixed: false
+      isFixed: false,
+      saveY: 0
     };
   },
   computed: {
@@ -91,6 +92,13 @@ export default {
     this.getHomeGoods("sell");
   },
   mounted() {},
+  activated() {
+    this.$refs.scroll.scroll.scrollTo(0, -this.saveY, 0);
+  },
+  deactivated() {
+    this.saveY = this.$refs.scroll.scroll.getScrollY;
+    this.$refs.scroll.scroll.refresh();
+  },
   methods: {
     // 1.请求多个数据
     getHomeMulitData() {

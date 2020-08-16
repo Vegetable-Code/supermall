@@ -21,6 +21,7 @@ export default {
       default: false
     }
   },
+
   data() {
     return {
       scroll: null
@@ -35,12 +36,12 @@ export default {
     });
     // 实时监听位置
     this.scroll.on("scroll", position => {
-      this.$emit('scroll', position)
+      this.$emit("scroll", position);
     });
     // 上拉加载更多
-    this.scroll.on('pullingUp', () => {
-      this.$emit('pullingUp')
-    })
+    this.scroll.on("pullingUp", () => {
+      this.$emit("pullingUp");
+    });
   }
 };
 </script>

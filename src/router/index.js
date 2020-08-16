@@ -5,6 +5,7 @@ const Home = () => import('../views/home/Home.vue')
 const Category = () => import('../views/category/Category.vue')
 const Cart = () => import('../views/cart/Cart.vue')
 const Profile = () => import('../views/profile/Profile.vue')
+const Detail = () => import('../views/detail/Detail.vue')
 
 Vue.use(VueRouter)
 
@@ -42,9 +43,16 @@ const routes = [{
     path: '/profile',
     component: Profile,
     // meta: {
-    //   title: '档案'
+    //   title: '我的'
     // }
-  }
+  },
+  {
+    path: '/detail/:iid',
+    component: Detail,
+    // meta: {
+    //   title: '详情页'
+    // }
+  },
 ]
 
 const router = new VueRouter({
@@ -52,5 +60,16 @@ const router = new VueRouter({
   base: process.env.BASE_URL,
   routes
 })
+
+// // 前置钩子
+// router.beforeEach((to, from, next) => {
+//   document.title = to.matched[0].meta.title
+//   next() // 必须先调用
+// })
+
+// // 后置钩子
+// router.afterEach((to, from) => {
+//   document.title = to.matched[0].meta.title
+// })
 
 export default router
