@@ -4,6 +4,7 @@
     <nav-bar class="home-nav">
       <div slot="center">购物街</div>
     </nav-bar>
+    <!-- 预备吸顶 -->
     <tab-control
       :titles="showList"
       @tabClick="tabClick"
@@ -11,6 +12,7 @@
       class="tab-control"
       v-show="isFixed"
     />
+    <!-- 滚动包含元素 -->
     <Scroll
       ref="scroll"
       :probe-type="3"
@@ -18,17 +20,23 @@
       :pull-up-load="true"
       @pullingUp="loadMore"
     >
+      <!-- 轮播 -->
       <home-swiper :banners="banners.list" @swiperImgLoad="swiperImgLoad"></home-swiper>
+      <!-- 推荐 -->
       <recommend-view :recommends="recommends"></recommend-view>
+      <!-- 流行 -->
       <feature-view />
+      <!-- 首页导航 -->
       <tab-control
         :class="{fixed: isFixed}"
         :titles="showList"
         @tabClick="tabClick"
         ref="tabControl2"
       />
+      <!-- 商品列表 -->
       <goods-list :goods="showGoods" />
     </Scroll>
+    <!-- 回到顶部 -->
     <back-top @click.native="backClick" v-show="isShow"></back-top>
   </div>
 </template>
@@ -93,9 +101,11 @@ export default {
   },
   mounted() {},
   activated() {
+    //获取状态并展示
     this.$refs.scroll.scroll.scrollTo(0, -this.saveY, 0);
   },
   deactivated() {
+    // 切换页面记录状态
     this.saveY = this.$refs.scroll.scroll.getScrollY;
     this.$refs.scroll.scroll.refresh();
   },
@@ -123,15 +133,12 @@ export default {
       switch (index) {
         case 0:
           this.currentType = "pop";
-          this.$refs.scroll.scroll.refresh();
           break;
         case 1:
           this.currentType = "new";
-          this.$refs.scroll.scroll.refresh();
           break;
         case 2:
           this.currentType = "sell";
-          this.$refs.scroll.scroll.refresh();
           break;
       }
       this.$refs.tabControl1.currentType = index;

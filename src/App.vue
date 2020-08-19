@@ -1,9 +1,11 @@
 <template>
   <div id="app">
-    <keep-alive>
+    <!-- 保持状态 -->
+    <keep-alive exclude="Detail">
       <router-view />
     </keep-alive>
-    <MainTabBar></MainTabBar>
+    <!-- 底部导航 -->
+    <MainTabBar class="max-index"></MainTabBar>
   </div>
 </template>
 
@@ -21,4 +23,9 @@ export default {
 <style scoped>
 /* scoped表示作用域 */
 @import "./assets/css/base.css";
+
+/* 底部导航最高层 */
+.max-index {
+  z-index: 1000
+}
 </style>

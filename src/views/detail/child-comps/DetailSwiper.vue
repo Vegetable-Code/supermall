@@ -1,11 +1,9 @@
 <template>
-  <div class="detail-swiper">
-    <Swiper>
-      <SwiperItem v-for="(item) in topImages" :key="item.index" class="swiper-item">
-        <img :src="item" alt="">
-      </SwiperItem>
-    </Swiper>
-  </div>
+  <Swiper class="detail-swiper">
+    <SwiperItem v-for="(item) in topImages" :key="item.index">
+      <img :src="item" alt />
+    </SwiperItem>
+  </Swiper>
 </template>
 
 <script>
@@ -29,7 +27,8 @@ export default {
 </script>
 
 <style scoped>
-.swiper-item {
-    height: 300px;
+.detail-swiper {
+  height: 300px;
+  overflow: hidden;
 }
 </style>
